@@ -1,0 +1,16 @@
+.{
+    .name = .Atlatl,
+    .version = "0.0.0",
+
+    .fingerprint = 0x4e264648aa91948b,
+    .minimum_zig_version = "0.15.0-dev.171+1b62a2226",
+
+    .dependencies = .{
+    },
+
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+    },
+}
