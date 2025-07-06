@@ -1,2 +1,3 @@
 pub const Base = @import("Base.zig");
-pub const Num = @import("Num.zig");
+//pub const ComputerAlgebra = @import("ComputerAlgebra.zig");
+pub const NumericalAnalysis = @import("NumericalAnalysis.zig");

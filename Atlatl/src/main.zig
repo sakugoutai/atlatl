@@ -1,27 +1,34 @@
 const std = @import("std");
-const heap = std.heap;
 
 const Atlatl = @import("Atlatl.zig");
-const String = Atlatl.Base.String;
-const Integer = Atlatl.Num.Integer;
-const Rational = Atlatl.Num.Rational;
-const Number = Atlatl.Num.Number;
-const Operation = Atlatl.Num.Operation;
-
+const NumericalAnalysis = Atlatl.NumericalAnalysis;
 
 pub fn main() !void {
-    var arena = heap.ArenaAllocator.init(heap.page_allocator);
-    defer arena.deinit();
-
-    const a = Number {
-        .Integer = try Integer.init(arena.allocator(),
-            "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
-        )
-    };
-
     const stdout = std.io.getStdOut().writer();
-    try stdout.print("{s}\n", .{ a.Integer.integer.getPrimitive() });
 
-    const tmp = Operation.add(a, a);
-    try stdout.print("{s}\n", .{ tmp.Integer.integer.getPrimitive() });
+    // bisection method
+    const root = try NumericalAnalysis.RootFinding.bisection(f, 0, 4, 10);
+    try stdout.print("{d}\n", .{ root });
+
+    // Newton-Raphson's method
+    const root2 = NumericalAnalysis.RootFinding.newton_raphson(f, df, 4, 10);
+    try stdout.print("{d}\n", .{ root2 });
+
+    // secant method
+    const root3 = try NumericalAnalysis.RootFinding.secant(f, 0, 4, 10);
+    try stdout.print("{d}\n", .{ root3 });
+
+    // regula falsi
+
+    // Brent's method
+
+    // Steffensen's method
+}
+
+fn f(x: f128) f128 {
+    return x * x - 2;
+}
+
+fn df(x: f128) f128 {
+    return 2 * x;
 }
