@@ -1,24 +1,26 @@
 const std = @import("std");
 
 const Atlatl = @import("Atlatl.zig");
-const NumericalAnalysis = Atlatl.NumericalAnalysis;
+const Numerical = Atlatl.Numerical;
 
 pub fn main() !void {
     const stdout = std.io.getStdOut().writer();
 
     // bisection method
-    const root = try NumericalAnalysis.RootFinding.bisection(f, 0, 4, 10);
+    const root = try Numerical.RootFinding.bisection(f, 0, 4, 1000);
     try stdout.print("{d}\n", .{ root });
 
     // Newton-Raphson's method
-    const root2 = NumericalAnalysis.RootFinding.newton_raphson(f, df, 4, 10);
+    const root2 = try Numerical.RootFinding.newtonRaphson(f, df, 4, 1000);
     try stdout.print("{d}\n", .{ root2 });
 
     // secant method
-    const root3 = try NumericalAnalysis.RootFinding.secant(f, 0, 4, 10);
+    const root3 = try Numerical.RootFinding.secant(f, 0, 4, 10);
     try stdout.print("{d}\n", .{ root3 });
 
     // regula falsi
+    const root4 = try Numerical.RootFinding.regulaFalsi(f, 0, 4, 1000);
+    try stdout.print("{d}\n", .{ root4 });
 
     // Brent's method
 
