@@ -6,6 +6,10 @@ fn isSameSign(a: f128, b: f128) bool {
 	return a * b >= 0;
 }
 
+fn isInvalid(a: f128) bool {
+	return math.isNan(a) or math.isInf(a);
+}
+
 pub fn bisection(f: fn (f128) f128, a: f128, b: f128, count: usize) error{SameSign}!f128 {
 	if (isSameSign(f(a), f(b)))
 		return error.SameSign;
@@ -51,13 +55,13 @@ pub fn regulaFalsi(f: fn (f128) f128, a: f128, b: f128, count: usize) error{Same
 }
 
 pub fn safeBisection(f: fn (f128) f128, a: f128, b: f128, count: usize) error{Invalid, FaInvalid, FbInvalid, SameSign}!f128 {
-	if (math.isNan(a) or math.isNan(b) or math.isInf(a) or math.isInf(b))
+	if (isInvalid(a) or isInvalid(b))
 	    return error.Invalid;
 
-	if (math.isNan(f(a)) or math.isInf(f(a)))
+	if (isInvalid(f(a)))
 		return error.FaInvalid;
 
-	if (math.isNan(f(b)) or math.isInf(f(b)))
+	if (isInvalid(f(b)))
 		return error.FbInvalid;
 
 	if (isSameSign(f(a), f(b)))
@@ -83,11 +87,12 @@ pub fn safeBisection(f: fn (f128) f128, a: f128, b: f128, count: usize) error{In
 }
 
 pub fn safeNewtonRaphson(f: fn (f128) f128, df: fn (f128) f128, a: f128, count: usize) error{Invalid, FaInvalid}!f128 {
-	if (math.isNan(a) or math.isInf(a))
+	if (isInvalid(a))
 	    return error.Invalid;
 
-	if (math.isNan(f(a)) or math.isInf(f(a)))
+	if (isInvalid(f(a)))
 		return error.FaInvalid;
+
 
 
 	return if (count == 0)
@@ -97,13 +102,13 @@ pub fn safeNewtonRaphson(f: fn (f128) f128, df: fn (f128) f128, a: f128, count: 
 }
 
 pub fn safeSecant(f: fn (f128) f128, a: f128, b: f128, count: usize) error{Invalid, FaInvalid, FbInvalid}!f128 {
-	if (math.isNan(a) or math.isNan(b) or math.isInf(a) or math.isInf(b))
+	if (isInvalid(a) or isInvalid(b))
 	    return error.Invalid;
 
-	if (math.isNan(f(a)) or math.isInf(f(a)))
+	if (isInvalid(f(a)))
 		return error.FaInvalid;
 
-	if (math.isNan(f(b)) or math.isInf(f(b)))
+	if (isInvalid(f(b)))
 		return error.FbInvalid;
 
 
@@ -118,13 +123,13 @@ pub fn safeSecant(f: fn (f128) f128, a: f128, b: f128, count: usize) error{Inval
 }
 
 pub fn safeRegulaFalsi(f: fn (f128) f128, a: f128, b: f128, count: usize) error{Invalid, FaInvalid, FbInvalid, SameSign}!f128 {
-	if (math.isNan(a) or math.isNan(b) or math.isInf(a) or math.isInf(b))
+	if (isInvalid(a) or isInvalid(b))
 	    return error.Invalid;
 
-	if (math.isNan(f(a)) or math.isInf(f(a)))
+	if (isInvalid(f(a)))
 		return error.FaInvalid;
 
-	if (math.isNan(f(b)) or math.isInf(f(b)))
+	if (isInvalid(f(b)))
 		return error.FbInvalid;
 
 	if (isSameSign(f(a), f(b)))
