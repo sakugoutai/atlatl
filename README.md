@@ -1,2 +1,2 @@
-# Atlatl
-Computer Algebra and Numerical Analysis (Symbolic and Numerical Computation) Library in Zig
+# atlatl
+Computer Algebra and Numerical Analysis (Symbolic and Numerical Computation) Library for Zig
