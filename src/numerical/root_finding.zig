@@ -2,16 +2,16 @@ const std = @import("std");
 const math = std.math;
 
 
-fn isSameSign(a: f128, b: f128) bool {
+fn sameSign(a: f128, b: f128) bool {
 	return a * b >= 0;
 }
 
-fn isInvalid(a: f128) bool {
+fn invalid(a: f128) bool {
 	return math.isNan(a) or math.isInf(a);
 }
 
 pub fn bisection(f: fn (f128) f128, a: f128, b: f128, count: usize) error{SameSign}!f128 {
-	if (isSameSign(f(a), f(b)))
+	if (sameSign(f(a), f(b)))
 		return error.SameSign;
 
 
@@ -19,7 +19,7 @@ pub fn bisection(f: fn (f128) f128, a: f128, b: f128, count: usize) error{SameSi
 
 	return if (count == 0)
 		return middle
-	else if (isSameSign(f(a), f(middle)))
+	else if (sameSign(f(a), f(middle)))
 		bisection(f, middle, b, count - 1)
 	else
 		bisection(f, a, middle, count - 1);
@@ -40,7 +40,7 @@ pub fn secant(f: fn (f128) f128, a: f128, b: f128, count: usize) !f128 {
 }
 
 pub fn regulaFalsi(f: fn (f128) f128, a: f128, b: f128, count: usize) error{SameSign}!f128 {
-	if (isSameSign(f(a), f(b)))
+	if (sameSign(f(a), f(b)))
 		return error.SameSign;
 
 
@@ -48,23 +48,23 @@ pub fn regulaFalsi(f: fn (f128) f128, a: f128, b: f128, count: usize) error{Same
 
     return if (count == 0)
 		c
-    else if (isSameSign(f(a), f(c)))
+    else if (sameSign(f(a), f(c)))
         regulaFalsi(f, c, b, count - 1)
     else
         regulaFalsi(f, a, c, count - 1);
 }
 
 pub fn safeBisection(f: fn (f128) f128, a: f128, b: f128, count: usize) error{Invalid, FaInvalid, FbInvalid, SameSign}!f128 {
-	if (isInvalid(a) or isInvalid(b))
+	if (invalid(a) or invalid(b))
 	    return error.Invalid;
 
-	if (isInvalid(f(a)))
+	if (invalid(f(a)))
 		return error.FaInvalid;
 
-	if (isInvalid(f(b)))
+	if (invalid(f(b)))
 		return error.FbInvalid;
 
-	if (isSameSign(f(a), f(b)))
+	if (sameSign(f(a), f(b)))
 		return error.SameSign;
 
 
@@ -72,7 +72,7 @@ pub fn safeBisection(f: fn (f128) f128, a: f128, b: f128, count: usize) error{In
 
 	return if (count == 0)
 		return middle
-	else if (isSameSign(f(a), f(middle)))
+	else if (sameSign(f(a), f(middle)))
 		safeBisection(f, middle, b, count - 1) catch |err| switch (err) {
 			error.FaInvalid => b,
 			error.FbInvalid => middle,
@@ -87,10 +87,10 @@ pub fn safeBisection(f: fn (f128) f128, a: f128, b: f128, count: usize) error{In
 }
 
 pub fn safeNewtonRaphson(f: fn (f128) f128, df: fn (f128) f128, a: f128, count: usize) error{Invalid, FaInvalid}!f128 {
-	if (isInvalid(a))
+	if (invalid(a))
 	    return error.Invalid;
 
-	if (isInvalid(f(a)))
+	if (invalid(f(a)))
 		return error.FaInvalid;
 
 
@@ -102,13 +102,13 @@ pub fn safeNewtonRaphson(f: fn (f128) f128, df: fn (f128) f128, a: f128, count: 
 }
 
 pub fn safeSecant(f: fn (f128) f128, a: f128, b: f128, count: usize) error{Invalid, FaInvalid, FbInvalid}!f128 {
-	if (isInvalid(a) or isInvalid(b))
+	if (invalid(a) or invalid(b))
 	    return error.Invalid;
 
-	if (isInvalid(f(a)))
+	if (invalid(f(a)))
 		return error.FaInvalid;
 
-	if (isInvalid(f(b)))
+	if (invalid(f(b)))
 		return error.FbInvalid;
 
 
@@ -123,16 +123,16 @@ pub fn safeSecant(f: fn (f128) f128, a: f128, b: f128, count: usize) error{Inval
 }
 
 pub fn safeRegulaFalsi(f: fn (f128) f128, a: f128, b: f128, count: usize) error{Invalid, FaInvalid, FbInvalid, SameSign}!f128 {
-	if (isInvalid(a) or isInvalid(b))
+	if (invalid(a) or invalid(b))
 	    return error.Invalid;
 
-	if (isInvalid(f(a)))
+	if (invalid(f(a)))
 		return error.FaInvalid;
 
-	if (isInvalid(f(b)))
+	if (invalid(f(b)))
 		return error.FbInvalid;
 
-	if (isSameSign(f(a), f(b)))
+	if (sameSign(f(a), f(b)))
 		return error.SameSign;
 
 
@@ -140,7 +140,7 @@ pub fn safeRegulaFalsi(f: fn (f128) f128, a: f128, b: f128, count: usize) error{
 
     return if (count == 0)
 		c
-    else if (isSameSign(f(a), f(c)))
+    else if (sameSign(f(a), f(c)))
         safeRegulaFalsi(f, c, b, count - 1) catch |err| switch (err) {
 			error.Invalid => b,
 			error.FaInvalid => b,

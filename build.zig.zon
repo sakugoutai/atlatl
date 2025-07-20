@@ -1,0 +1,24 @@
+.{
+    .name = .Atlatl,
+    .version = "0.2.0",
+
+    .fingerprint = 0x4e264648aa91948b,
+    .minimum_zig_version = "0.15.0-dev.889+b8ac740a1",
+
+    .dependencies = .{
+        .ariadne = .{
+            .url = "git+https://github.com/sakugoutai/ariadne#bc3e8c9c059d485a917b52c3a8d911ab0dfa8ca3",
+            .hash = "ariadne-1.0.0-YJY0okqhAACvlI3GU0INpjOlyVZH4X7YVdKuB1Ak0D38",
+        },
+    },
+
+    .paths = .{
+        ".gitignore",
+        "build.zig",
+        "build.zig.zon",
+        "examples",
+        "src",
+        "LICENSE",
+        "README.md",
+    },
+}
