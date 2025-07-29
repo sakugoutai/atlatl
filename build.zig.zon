@@ -1,15 +1,11 @@
 .{
-    .name = .Atlatl,
-    .version = "0.2.0",
+    .name = .atlatl,
+    .version = "0.2.1",
 
-    .fingerprint = 0x4e264648aa91948b,
-    .minimum_zig_version = "0.15.0-dev.889+b8ac740a1",
+    .fingerprint = 0x498a437eeb7aa372,
+    .minimum_zig_version = "0.15.0-dev.1254+c9ce1debe",
 
     .dependencies = .{
-        .ariadne = .{
-            .url = "git+https://github.com/sakugoutai/ariadne#bc3e8c9c059d485a917b52c3a8d911ab0dfa8ca3",
-            .hash = "ariadne-1.0.0-YJY0okqhAACvlI3GU0INpjOlyVZH4X7YVdKuB1Ak0D38",
-        },
     },
 
     .paths = .{
